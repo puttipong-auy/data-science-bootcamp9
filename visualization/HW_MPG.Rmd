@@ -1,0 +1,116 @@
+---
+title: "MPG"
+author: "Puttipong Ch"
+date: "2024-02-12"
+output: html_document
+---
+
+This project use mpg dataset 
+
+install package
+```{r,message=FALSE}
+library(tidyverse)
+library(ggplot2)
+data(mpg)
+```
+
+
+```{r}
+head(mpg)
+```
+
+
+```{r}
+ggplot(mpg,aes(x=cty))+
+  geom_histogram(bins=15)+
+  theme_minimal()
+```
+
+```{r}
+ggplot(mpg,aes(x=hwy))+
+  geom_histogram(bins=10)+
+  theme_minimal()
+```
+
+
+
+# The Fuel : 
+- e: ethanol E85, note(subset(mpg, fl=="e") pulls up only "new" american cars, and that fuel economy is much lower than the corresponding presumably gasoline models, which lines up with the lower energy content of ethanol)
+- d: diesel
+- r: regular
+- p: premium
+- c: CNG (note as far as I know the civic is basically the only passenger car that runs on CNG in the US).
+
+```{r}
+ggplot(mpg,aes(cty,hwy,color=fl))+
+  geom_point(alpha=0.5,size=3)+
+  theme_minimal()
+```
+
+
+
+```{r}
+ggplot(mpg ,aes(class,hwy))+
+  geom_boxplot()+
+  theme_minimal()
+```
+
+
+```{r}
+ggplot(mpg ,aes(fl,hwy))+
+  geom_boxplot()+
+  facet_wrap(~fl,nrow=1)
+  theme_minimal()
+```
+
+
+
+
+```{r}
+ggplot(mpg ,aes(fl))+
+  geom_bar()+
+  theme_minimal()
+```
+
+
+mpg%>%
+    select(hwy,fl) %>%
+    group_by(fl)%>%
+    summarise(hwy_avg=mean(hwy))
+
+
+```{r}
+ggplot(mpg%>%
+         select(hwy,fl) %>%
+         group_by(fl)%>%
+         summarise(hwy_avg=mean(hwy)),aes(fl,hwy_avg))+
+  geom_col()+
+  theme_minimal()
+```
+
+
+
+```{r}
+ggplot(mpg%>%
+         select(cty,fl) %>%
+         group_by(fl)%>%
+         summarise(cty_avg=mean(cty)),aes(fl,cty_avg))+
+  geom_col()+
+  theme_minimal()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
